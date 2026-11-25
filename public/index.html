@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understand your crypto trade footprint. Compare planned trade size against reported market volume with transparent CoinMarketCap data.">
+  <title>DepthCheck — Know your footprint.</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to workspace</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="DepthCheck home"><span class="brandmark" aria-hidden="true">≋</span> depthcheck<span class="branddot">.</span></a>
+    <nav aria-label="Main navigation"><a href="#workspace">Workspace</a><a href="#method">Methodology <span aria-hidden="true">↗</span></a></nav>
+    <span class="powered">Built with <b>CoinMarketCap API</b></span>
+  </header>
+  <main>
+    <section class="intro">
+      <div class="eyebrow"><span class="line"></span> MARKET LIQUIDITY WORKSPACE <span class="edition">01 / CMC HACKATHON</span></div>
+      <div class="hero-row"><div><h1>Your next trade.<br><em>How big is its footprint?</em></h1>
+      <p class="lede">Price isn't the whole story. Put your trade size in context<br class="desktop"> with reported market activity before making a move.</p></div>
+      <div class="hero-note"><span class="orb" aria-hidden="true">◎</span><p>Evidence over instinct.<br><span>Know the limits. Check the context.</span></p></div></div>
+    </section>
+    <section id="workspace" aria-label="Trade footprint workspace">
+      <div class="sourcebar"><div><span id="source-badge" class="badge">LOADING</span><span id="source-note">Preparing market data…</span></div><div class="source-actions"><button id="demo" class="text-button" type="button">Demo mode</button><button id="live" class="text-button" type="button">Live CMC data ↗</button><button id="refresh" class="outline" type="button">Refresh</button></div></div>
+      <p id="error" class="error" role="alert" hidden></p>
+      <div class="workspace-grid">
+        <aside class="panel setup">
+          <div class="section-label">01 — YOUR TRADE</div>
+          <h2>Start with a number.</h2>
+          <label for="amount">Planned trade value in USD</label>
+          <div class="amount-field"><span>$</span><input id="amount" type="number" min="1" max="1000000000000" step="any" value="10000" inputmode="decimal" aria-describedby="amount-help amount-error"></div>
+          <p id="amount-help" class="helper">Use the value you plan to buy or sell.</p>
+          <p id="amount-error" class="error" role="alert" hidden></p>
+          <div class="presets" aria-label="Quick trade amounts"><button type="button" data-amount="1000">$1K</button><button type="button" data-amount="10000">$10K</button><button type="button" data-amount="100000">$100K</button></div>
+          <div class="setup-divider"></div>
+          <label for="search">Find an asset</label>
+          <input id="search" type="search" placeholder="Name or symbol, e.g. BTC" autocomplete="off">
+          <label for="sort">Scan order</label>
+          <select id="sort"><option value="rank">Market ranking</option><option value="footprint">Largest trade footprint</option><option value="volume">Highest reported volume</option></select>
+          <div class="note"><span class="note-icon" aria-hidden="true">i</span><p><b>Not a slippage estimate.</b><br>Global volume is not the order-book depth on your exchange.</p></div>
+        </aside>
+        <section class="panel results" aria-label="Footprint results" aria-busy="true">
+          <div class="results-heading"><div><div class="section-label">02 — MARKET SCAN</div><h2>A little context. A clearer picture.</h2></div><span id="count" class="count">— assets</span></div>
+          <div class="stats"><div><span>Planned trade</span><strong id="stat-amount">$10,000</strong></div><div><span>Footprint ≥ 0.1%</span><strong id="stat-flags">—</strong></div><div><span>Volume data coverage</span><strong id="stat-coverage">—</strong></div></div>
+          <div class="table-wrap"><table><caption class="sr-only">Planned trade value compared with reported 24-hour trading volume</caption><thead><tr><th scope="col">Asset / price</th><th scope="col">24h volume</th><th scope="col">Trade footprint <span title="Trade amount divided by reported 24h volume">ⓘ</span></th><th scope="col">Context</th></tr></thead><tbody id="rows"></tbody></table></div>
+          <p id="empty" class="empty" hidden>No matching assets. Try another name or symbol.</p>
+          <p id="status" class="table-footer" role="status" aria-live="polite">Loading market data…</p>
+        </section>
+      </div>
+    </section>
+    <section id="method" class="method">
+      <div><div class="section-label">03 — NO BLACK BOX</div><h2>Numbers you can check yourself.</h2><p>No AI scores. No profit predictions. Just open calculations and honest limitations.</p></div>
+      <div class="formula"><span>TRADE FOOTPRINT</span><p>Trade value USD <span>÷</span> 24h volume <span>× 100</span></p><small>Small &lt; 0.1% · Review 0.1–&lt;1% · Large ≥ 1%</small></div>
+      <details><summary>Explore the sources, assumptions, and limitations</summary><div class="method-body"><p>The 0.1% and 1% bands are illustrative heuristics, not validated safety thresholds. A small footprint does not mean a trade is safe. Turnover = reported 24h volume ÷ market cap × 100. Volume and price changes compare 24-hour periods.</p><p>Live mode uses <code>GET /v1/cryptocurrency/listings/latest?limit=100&amp;convert=USD</code>: the first 100 assets in CMC's default listings order. Responses are cached server-side for 60 seconds; refreshing inside that window does not request new CMC data. There is no automatic polling.</p><p>Reported volume may include activity that does not reflect actual liquidity. This screen does not account for spread, exchange-specific depth, fees, fragmentation, or execution probability. Missing data stays unknown, never zero.</p><p>Demo mode uses synthetic illustrative data, not current prices. Quotes for real assets are also synthetic; SMALL, THIN, and NODATA are fictional example assets.</p><p>The fetched time is server retrieval time, not the market quote time. Each asset's CMC update timestamp is preserved in the response below.</p><details><summary>Inspect the current data response</summary><pre id="evidence">No response loaded yet.</pre></details></div></details>
+    </section>
+  </main>
+  <footer><a class="brand" href="/">depthcheck.</a><span>Built for clarity. Not for trading advice.</span><span>Build with CMC / 2026</span></footer>
+  <template id="coin-row"><tr><td><div class="asset"><span class="coin-icon" aria-hidden="true"></span><div><b class="coin-name"></b><span class="coin-sub"></span></div></div></td><td><b class="volume"></b><span class="volume-change"></span></td><td><b class="footprint"></b><meter min="0" max="1" value="0" aria-label="Trade share of volume; scale capped at one percent"></meter></td><td><span class="risk"></span><span class="turnover"></span></td></tr></template>
+</body>
+</html>

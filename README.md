@@ -6,6 +6,12 @@ a planned USD trade with reported global 24-hour cryptocurrency volume.
 Built for **Build with CMC: API Hackathon**, Markets and Trading Tools track.
 No dependencies, wallet connection, sign-in, trading or AI-generated predictions.
 
+## Demo video
+
+[Watch the current DepthCheck walkthrough (MP4)](https://github.com/wiclita/depthcheck-cmc/releases/download/v1.0.0/depthcheck-current.mp4).
+It shows live CMC data and a separately labeled synthetic demo. This is a
+recording of the locally hosted app, not a public deployment.
+
 ## The market board
 
 A warm glass workspace groups assets into four calculated footprint columns:

@@ -6,6 +6,19 @@ a planned USD trade with reported global 24-hour cryptocurrency volume.
 Built for **Build with CMC: API Hackathon**, Markets and Trading Tools track.
 No dependencies, wallet connection, sign-in, trading or AI-generated predictions.
 
+## The market board
+
+A warm glass workspace groups assets into four calculated footprint columns:
+**Small footprint**, **Review closely**, **Large footprint**, and **Unknown**.
+Enter a planned USD trade, search by name or symbol, and sort within each column.
+Categories update automatically; cards cannot be dragged into a different band.
+Unknown volume stays visibly separate. Desktop shows four columns, tablets two,
+and phones a single-column board.
+
+The UI, formulas, errors and submission materials are in English. The interface
+uses native HTML, CSS and JavaScript, including translucent panels and subtle
+hover motion—no React, Framer Motion or animation dependency is needed.
+
 ## Run locally
 
 Requires Node.js 22.9+ (tested with 22.23.5).
@@ -82,7 +95,8 @@ npm.cmd test
 ```
 
 Node's built-in runner covers percentages, boundary cases, missing data,
-invalid amounts, HTTP methods, static-file allowlisting, demo/live separation,
+tiny positive prices/percentages, automatic board grouping, invalid amounts,
+HTTP methods, static-file allowlisting, demo/live separation,
 CMC request authentication, normalization, caching and sanitized errors.
 Upstream tests use controlled fixtures, **not** the real CMC service.
 No real API evidence is claimed by these tests.
@@ -90,7 +104,7 @@ No real API evidence is claimed by these tests.
 ## Files
 
 - `server.mjs`: HTTP server and CMC adapter.
-- `public/model.mjs`: shared pure calculation, exercised by tests.
+- `public/model.mjs`: pure calculation, formatting and column grouping.
 - `public/app.mjs`: UI state, filtering, sorting, evidence.
 - `public/index.html`, `public/style.css`: responsive accessible interface.
 - `test/app.test.mjs`: automated tests.

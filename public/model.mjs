@@ -22,3 +22,14 @@ export function assess(coin, amount) {
     : share >= 0.1 ? 'Review closely' : 'Small footprint';
   return { share, turnover, level };
 }
+
+export function groupByFootprint(coins, amount) {
+  const groups = { small: [], review: [], large: [], unknown: [] };
+  for (const coin of coins) {
+    const result = assess(coin, amount);
+    const band = result.share === null ? 'unknown' : result.share >= 1 ? 'large'
+      : result.share >= 0.1 ? 'review' : 'small';
+    groups[band].push({ ...coin, ...result });
+  }
+  return groups;
+}
